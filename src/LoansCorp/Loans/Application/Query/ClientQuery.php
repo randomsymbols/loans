@@ -19,6 +19,15 @@ readonly class ClientQuery
                 $client->getClientId()->toString(),
                 $client->getFirstName(),
                 $client->getLastName(),
+                $client->getAge(),
+                $client->getCity(),
+                $client->getState(),
+                $client->getZip(),
+                $client->getSsn(),
+                $client->getFico(),
+                $client->getWage(),
+                $client->getEmail(),
+                $client->getPhone(),
             );
         }, $results);
     }

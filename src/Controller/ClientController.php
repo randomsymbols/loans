@@ -26,6 +26,15 @@ class ClientController extends AbstractController
             $command = new AddClientCommand(
                 $form->get('firstName')->getData(),
                 $form->get('lastName')->getData(),
+                $form->get('age')->getData(),
+                $form->get('city')->getData(),
+                $form->get('state')->getData(),
+                $form->get('zip')->getData(),
+                $form->get('ssn')->getData(),
+                $form->get('fico')->getData(),
+                $form->get('wage')->getData(),
+                $form->get('email')->getData(),
+                $form->get('phone')->getData(),
             );
             $this->messageBus->dispatch($command);
         }

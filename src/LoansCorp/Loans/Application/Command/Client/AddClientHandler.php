@@ -34,6 +34,15 @@ class AddClientHandler implements HandlerInterface
             ClientId::generate(),
             $commandInterface->getFirstName(),
             $commandInterface->getLastName(),
+            $commandInterface->getAge(),
+            $commandInterface->getCity(),
+            $commandInterface->getState(),
+            $commandInterface->getZip(),
+            $commandInterface->getSsn(),
+            $commandInterface->getFico(),
+            $commandInterface->getWage(),
+            $commandInterface->getEmail(),
+            $commandInterface->getPhone(),
         );
 
         $this->clientRepository->store($client);
