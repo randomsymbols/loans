@@ -2,29 +2,6 @@
 
 namespace App\LoansCorp\Loans\Domain\Client;
 
-/**
- * This is the 'Aggregate Root' of the Appointment Bounded Context.
- *
- * Each Bounded Context will have one Entity class which naturally
- * describes what the bounded context is trying to achieve. In this
- * case the Bounded Context is focused on booking appointments, so
- * the Appointment class is the natural Aggregate Root.
- *
- * The Aggregate Root is the entry-point for all functionality in the
- * Domain model. It can also be comprised in-part of other
- * Entity classes (eg here we have Pet as a property of Appointment).
- *
- * The Aggregate Root is the only class in the Bounded Context which is
- * allowed to create other Entity objects or to call methods on those entities.
- *
- * All services in the Bounded Context call methods directly on the
- * Aggregate Root; they _do not_ call any methods on the other Entity classes,
- * nor do they instantiate any other class than the Aggregate Root.
- *
- * If you cannot think of an appropriate Aggregate Root in your own context,
- * you might need to either consider splitting your model into more
- * Bounded Contexts, or go back to the 'Domain Expert' and gain clarification.
- */
 class Client
 {
     public const CLIENT_STATES = [
@@ -80,109 +57,155 @@ class Client
         'Wyoming' => 'WY',
     ];
 
-    private function __construct(
-        private ClientId $clientId,
-        private string $firstName,
-        private string $lastName,
-        private int $age,
-        private string $city,
-        private string $state,
-        private int $zip,
-        private string $ssn,
-        private int $fico,
-        private int $wage,
-        private string $email,
-        private string $phone,
+    public function __construct(
+        private ?string $id,
+        private ?string $firstName,
+        private ?string $lastName,
+        private ?int $age,
+        private ?string $city,
+        private ?string $state,
+        private ?int $zip,
+        private ?string $ssn,
+        private ?int $fico,
+        private ?int $wage,
+        private ?string $email,
+        private ?string $phone,
     ) {}
 
-    public static function create(
-        ClientId $clientId,
-        string $firstName,
-        string $lastName,
-        int $age,
-        string $city,
-        string $state,
-        int $zip,
-        string $ssn,
-        int $fico,
-        int $wage,
-        string $email,
-        string $phone,
-    ): self
+    public function getId(): ?string
     {
-        return new self(
-            $clientId,
-            $firstName,
-            $lastName,
-            $age,
-            $city,
-            $state,
-            $zip,
-            $ssn,
-            $fico,
-            $wage,
-            $email,
-            $phone,
-        );
+        return $this->id;
     }
 
-    public function getClientId(): ClientId
-    {
-        return $this->clientId;
-    }
-
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
-    public function getLastName(): string
+    public function setFirstName(string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
-    public function getAge(): int
+    public function setLastName(string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getAge(): ?int
     {
         return $this->age;
     }
 
-    public function getCity(): string
+    public function setAge(int $age): static
+    {
+        $this->age = $age;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
-    public function getState(): string
+    public function setCity(string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getState(): ?string
     {
         return $this->state;
     }
 
-    public function getZip(): int
+    public function setState(string $state): static
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    public function getZip(): ?int
     {
         return $this->zip;
     }
 
-    public function getSsn(): string
+    public function setZip(int $zip): static
+    {
+        $this->zip = $zip;
+
+        return $this;
+    }
+
+    public function getSsn(): ?string
     {
         return $this->ssn;
     }
 
-    public function getFico(): int
+    public function setSsn(string $ssn): static
+    {
+        $this->ssn = $ssn;
+
+        return $this;
+    }
+
+    public function getFico(): ?int
     {
         return $this->fico;
     }
 
-    public function getWage(): int
+    public function setFico(int $fico): static
+    {
+        $this->fico = $fico;
+
+        return $this;
+    }
+
+    public function getWage(): ?int
     {
         return $this->wage;
     }
 
-    public function getEmail(): string
+    public function setWage(int $wage): static
+    {
+        $this->wage = $wage;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function getPhone(): string
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
     {
         return $this->phone;
+    }
+
+    public function setPhone(string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
     }
 }

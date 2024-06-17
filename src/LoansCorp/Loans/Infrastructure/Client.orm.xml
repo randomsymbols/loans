@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+    https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+>
+
+    <entity
+        name="App\LoansCorp\Loans\Domain\Client\Client"
+        table="clients"
+        repository-class="App\LoansCorp\Loans\Infrastructure\DbalClientRepository"
+    >
+        <id name="id" type="guid" column="id" length="36" />
+        <field name="firstName" column="first_name" length="180" />
+        <field name="lastName" column="last_name" length="180" />
+        <field name="age" column="age" length="3" />
+        <field name="city" column="city" length="180" />
+        <field name="state" column="state" length="2" />
+        <field name="zip" column="zip" length="9" />
+        <field name="ssn" column="ssn" length="180" />
+        <field name="fico" column="fico" length="180" />
+        <field name="wage" column="wage" length="180" />
+        <field name="email" column="email" length="180" />
+        <field name="phone" column="phone" length="180" />
+    </entity>
+
+</doctrine-mapping>

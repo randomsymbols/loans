@@ -5,47 +5,118 @@ namespace App\LoansCorp\Loans\Infrastructure;
 use App\LoansCorp\Loans\Domain\Client\Client;
 use App\LoansCorp\Loans\Domain\Client\ClientId;
 use App\LoansCorp\Loans\Domain\Client\ClientRepositoryInterface;
-use Doctrine\DBAL\Connection;
-use function array_map;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DbalClientRepository implements ClientRepositoryInterface
 {
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(private readonly EntityManagerInterface $entityManager) {}
 
-    public function store(Client $client): void
+    public function create(
+        string $firstName,
+        string $lastName,
+        int $age,
+        string $city,
+        string $state,
+        int $zip,
+        string $ssn,
+        int $fico,
+        int $wage,
+        string $email,
+        string $phone,
+    ): void
     {
-        $stmt = $this->connection->prepare('
-            INSERT INTO clients (id, first_name, last_name, age, city, state, zip, ssn, fico, wage, email, phone)
-            VALUES (:id, :first_name, :last_name, :age, :city, :state, :zip, :ssn, :fico, :wage, :email, :phone)
-        ');
+        $client = new Client(
+            ClientId::generate()->toString(),
+            $firstName,
+            $lastName,
+            $age,
+            $city,
+            $state,
+            $zip,
+            $ssn,
+            $fico,
+            $wage,
+            $email,
+            $phone,
+        );
 
-        $stmt->bindValue('id', $client->getClientId()->toString());
-        $stmt->bindValue('first_name', $client->getFirstName());
-        $stmt->bindValue('last_name', $client->getLastName());
-        $stmt->bindValue('age', $client->getAge());
-        $stmt->bindValue('city', $client->getCity());
-        $stmt->bindValue('state', $client->getState());
-        $stmt->bindValue('zip', $client->getZip());
-        $stmt->bindValue('ssn', $client->getSsn());
-        $stmt->bindValue('fico', $client->getFico());
-        $stmt->bindValue('wage', $client->getWage());
-        $stmt->bindValue('email', $client->getEmail());
-        $stmt->bindValue('phone', $client->getPhone());
-
-        $stmt->executeStatement();
+        $this->entityManager->persist($client);
+        $this->entityManager->flush();
     }
 
-    public function getAll(): array
+    public function edit(
+        string $id,
+        ?string $firstName,
+        ?string $lastName,
+        ?int $age,
+        ?string $city,
+        ?string $state,
+        ?int $zip,
+        ?string $ssn,
+        ?int $fico,
+        ?int $wage,
+        ?string $email,
+        ?string $phone,
+    ): void
     {
-        $stmt = $this->connection->prepare('
-            SELECT * FROM clients
-        ');
+        $client = $this->entityManager->find(Client::class, $id);
 
-        $result = $stmt->executeQuery();
+        if ($firstName) {
+            $client->setFirstName($firstName);
+        }
 
-        return array_map(function (array $row) {
-            return Client::create(
-                ClientId::fromString($row['id']),
+        if ($lastName) {
+            $client->setLastName($lastName);
+        }
+
+        if ($age) {
+            $client->setAge($age);
+        }
+
+        if ($city) {
+            $client->setCity($city);
+        }
+
+        if ($state) {
+            $client->setState($state);
+        }
+
+        if ($zip) {
+            $client->setZip($zip);
+        }
+
+        if ($ssn) {
+            $client->setSsn($ssn);
+        }
+
+        if ($fico) {
+            $client->setFico($fico);
+        }
+
+        if ($wage) {
+            $client->setWage($wage);
+        }
+
+        if ($email) {
+            $client->setEmail($email);
+        }
+
+        if ($phone) {
+            $client->setPhone($phone);
+        }
+
+        $this->entityManager->persist($client);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * @return Client[]
+     */
+    public function findAll(): array
+    {
+        return array_map(
+            fn (array $row) => new Client(
+                $row['id'],
                 $row['first_name'],
                 $row['last_name'],
                 $row['age'],
@@ -57,7 +128,13 @@ class DbalClientRepository implements ClientRepositoryInterface
                 $row['wage'],
                 $row['email'],
                 $row['phone'],
-            );
-        }, $result->fetchAllAssociative());
+            ),
+            $this->entityManager->getConnection()->prepare('SELECT * FROM clients')->execute()->fetchAllAssociative()
+        );
+    }
+
+    public function findOneById(string $id): Client
+    {
+        return $this->entityManager->find(Client::class, $id);
     }
 }

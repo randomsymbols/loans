@@ -16,12 +16,13 @@
             <th>Wage</th>
             <th>Email</th>
             <th>Phone</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         {% for client in clients %}
             <tr>
-                <td>{{ client.ClientId }}</td>
+                <td>{{ client.id }}</td>
                 <td>{{ client.firstName }}</td>
                 <td>{{ client.lastName }}</td>
                 <td>{{ client.age }}</td>
@@ -33,6 +34,7 @@
                 <td>{{ client.wage }}</td>
                 <td>{{ client.email }}</td>
                 <td>{{ client.phone }}</td>
+                <td><a href="{{ path('client_edit', {id: client.id}) }}">Edit</a></td>
             </tr>
         {% endfor %}
         </tbody>

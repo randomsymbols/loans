@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace App\LoansCorp\Loans\Application\Query;
+namespace App\LoansCorp\Loans\Application\Command\Client;
 
-readonly class ClientDTO
+class CreateClientCommand
 {
     public function __construct(
-        private string $clientId,
         private string $firstName,
         private string $lastName,
         private int $age,
@@ -17,63 +16,93 @@ readonly class ClientDTO
         private int $wage,
         private string $email,
         private string $phone,
-    ) {}
+    ) {
 
-    public function getClientId(): string
-    {
-        return $this->clientId;
     }
 
+    /**
+     * @return string
+     */
     public function getFirstName(): string
     {
         return $this->firstName;
     }
 
+    /**
+     * @return string
+     */
     public function getLastName(): string
     {
         return $this->lastName;
     }
 
+    /**
+     * @return int
+     */
     public function getAge(): int
     {
         return $this->age;
     }
 
+    /**
+     * @return string
+     */
     public function getCity(): string
     {
         return $this->city;
     }
 
+    /**
+     * @return string
+     */
     public function getState(): string
     {
         return $this->state;
     }
 
+    /**
+     * @return int
+     */
     public function getZip(): int
     {
         return $this->zip;
     }
 
+    /**
+     * @return string
+     */
     public function getSsn(): string
     {
         return $this->ssn;
     }
 
+    /**
+     * @return int
+     */
     public function getFico(): int
     {
         return $this->fico;
     }
 
+    /**
+     * @return int
+     */
     public function getWage(): int
     {
         return $this->wage;
     }
 
+    /**
+     * @return string
+     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
+    /**
+     * @return string
+     */
     public function getPhone(): string
     {
         return $this->phone;
