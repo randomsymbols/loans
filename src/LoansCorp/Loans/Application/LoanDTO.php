@@ -1,40 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace App\LoansCorp\Loans\Domain\Product;
+namespace App\LoansCorp\Loans\Application;
 
-use App\LoansCorp\Loans\Domain\Loan\Loan;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-
-class Product
+class LoanDTO
 {
-    private Collection|null $loans = null;
-
     public function __construct(
         private ?string $id,
+        private ?int $amount,
         private ?string $title,
         private ?int $term,
         private ?int $interest,
     ) {
-        $this->loans = new ArrayCollection();
-    }
 
-    /**
-     * @return Collection<int, Loan>
-     */
-    public function getLoans(): Collection
-    {
-        return $this->loans;
-    }
-
-    public function addLoan(Loan $loan): static
-    {
-        if (!$this->loans->contains($loan)) {
-            $this->loans->add($loan);
-            $loan->setProduct($this);
-        }
-
-        return $this;
     }
 
     /**
@@ -99,5 +76,21 @@ class Product
     public function setInterest(?int $interest): void
     {
         $this->interest = $interest;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getAmount(): ?int
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @param int|null $amount
+     */
+    public function setAmount(?int $amount): void
+    {
+        $this->amount = $amount;
     }
 }

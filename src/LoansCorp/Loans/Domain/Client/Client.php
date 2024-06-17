@@ -2,6 +2,10 @@
 
 namespace App\LoansCorp\Loans\Domain\Client;
 
+use App\LoansCorp\Loans\Domain\Loan\Loan;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 class Client
 {
     public const CLIENT_STATES = [
@@ -57,6 +61,8 @@ class Client
         'Wyoming' => 'WY',
     ];
 
+    private Collection|null $loans = null;
+
     public function __construct(
         private ?string $id,
         private ?string $firstName,
@@ -70,7 +76,27 @@ class Client
         private ?int $wage,
         private ?string $email,
         private ?string $phone,
-    ) {}
+    ) {
+        $this->loans = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection<int, Loan>
+     */
+    public function getLoans(): Collection
+    {
+        return $this->loans;
+    }
+
+    public function addLoan(Loan $loan): static
+    {
+        if (!$this->loans->contains($loan)) {
+            $this->loans->add($loan);
+            $loan->setClient($this);
+        }
+
+        return $this;
+    }
 
     public function getId(): ?string
     {

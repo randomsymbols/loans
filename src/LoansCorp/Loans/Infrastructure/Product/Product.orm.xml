@@ -15,6 +15,11 @@
         <field name="title" column="title" length="180" />
         <field name="term" column="term" length="3" />
         <field name="interest" column="interest" length="3" />
+        <one-to-many
+            field="loans"
+            target-entity="App\LoansCorp\Loans\Domain\Loan\Loan"
+            mapped-by="product"
+        />
     </entity>
 
 </doctrine-mapping>

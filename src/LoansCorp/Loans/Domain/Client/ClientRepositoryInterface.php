@@ -2,6 +2,8 @@
 
 namespace App\LoansCorp\Loans\Domain\Client;
 
+use App\LoansCorp\Loans\Domain\Loan\Loan;
+
 interface ClientRepositoryInterface
 {
     public function create(
@@ -16,6 +18,12 @@ interface ClientRepositoryInterface
         int $wage,
         string $email,
         string $phone,
+    ): void;
+
+    public function createLoan(
+        int $amount,
+        string $clientId,
+        string $productId,
     ): void;
 
     public function edit(
@@ -34,9 +42,14 @@ interface ClientRepositoryInterface
     ): void;
 
     /**
-     * @return Client[]
+     * @return Client[]|null
      */
-    public function findAll(): array;
+    public function findAll(): ?array;
+
+    /**
+     * @return Loan[]|null
+     */
+    public function findLoans(string $clientId): ?array;
 
     public function findOneById(string $id): Client;
 }

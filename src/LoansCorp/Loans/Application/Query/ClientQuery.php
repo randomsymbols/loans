@@ -3,8 +3,10 @@
 namespace App\LoansCorp\Loans\Application\Query;
 
 use App\LoansCorp\Loans\Application\ClientDTO;
+use App\LoansCorp\Loans\Application\LoanDTO;
 use App\LoansCorp\Loans\Domain\Client\Client;
 use App\LoansCorp\Loans\Domain\Client\ClientRepositoryInterface;
+use App\LoansCorp\Loans\Domain\Loan\Loan;
 use function array_map;
 
 readonly class ClientQuery
@@ -31,6 +33,19 @@ readonly class ClientQuery
         return $this->mapClientToDTO($client);
     }
 
+    /**
+     * @return Loan[]
+     */
+    public function findLoans(string $clientId): array
+    {
+        $loans = $this->clientRepositoryInterface->findOneById($clientId)->getLoans()->toArray();
+
+        return array_map(
+            fn (Loan $loan) => $this->mapLoanToDTO($loan),
+            $loans,
+        );
+    }
+
     private function mapClientToDTO(Client $client): ClientDTO
     {
         return new ClientDTO(
@@ -46,6 +61,19 @@ readonly class ClientQuery
             $client->getWage(),
             $client->getEmail(),
             $client->getPhone(),
+        );
+    }
+
+    private function mapLoanToDTO(Loan $loan): LoanDTO
+    {
+        $product = $loan->getProduct();
+
+        return new LoanDTO(
+            $loan->getId(),
+            $loan->getAmount(),
+            $product->getTitle(),
+            $product->getTerm(),
+            $product->getInterest(),
         );
     }
 }

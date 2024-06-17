@@ -28,6 +28,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/LoansCorp/Loans/Infrastructure/Product'
                 prefix: 'App\LoansCorp\Loans\Domain\Product'
                 alias: Product
+            Loan:
+                type: xml
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/LoansCorp/Loans/Infrastructure/Loan'
+                prefix: 'App\LoansCorp\Loans\Domain\Loan'
+                alias: Loan
         controller_resolver:
             auto_mapping: true
 

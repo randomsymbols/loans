@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
-use App\LoansCorp\Loans\Application\Command\Client\CreateClientCommand;
-use App\LoansCorp\Loans\Application\Command\Client\EditClientCommand;
-use App\LoansCorp\Loans\Application\Query\ClientQuery;
 use App\Form\Type\ClientType;
+use App\Form\Type\LoanType;
+use App\LoansCorp\Loans\Application\Command\Client\CreateClientCommand;
+use App\LoansCorp\Loans\Application\Command\Client\CreateLoanCommand;
+use App\LoansCorp\Loans\Application\Command\Client\EditClientCommand;
+use App\LoansCorp\Loans\Application\ProductDTO;
+use App\LoansCorp\Loans\Application\Query\ClientQuery;
+use App\LoansCorp\Loans\Application\Query\ProductQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,6 +51,37 @@ class ClientController extends AbstractController
 
         return $this->render('client/list.html.twig', [
             'clients' => $clients,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/client/{id}/loans', name: 'client_loans', methods: ['GET', 'POST'])]
+    public function loans(Request $request, ClientQuery $clientQuery, ProductQuery $productQuery, string $id): Response
+    {
+        $products = [];
+
+        foreach ($productQuery->findAll() as $product) {
+            $products[$product->getTitle()] = $product->getId();
+        }
+
+        $form = $this->createForm(LoanType::class, options: ['products' => $products]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $command = new CreateLoanCommand(
+                $id,
+                $form->get('product')->getData(),
+                $form->get('amount')->getData(),
+            );
+
+            $this->messageBus->dispatch($command);
+        }
+
+        $loans = $clientQuery->findLoans($id);
+
+        return $this->render('client/loans.html.twig', [
+            'loans' => $loans,
             'form' => $form->createView(),
         ]);
     }

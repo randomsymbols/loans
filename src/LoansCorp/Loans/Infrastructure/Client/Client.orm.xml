@@ -23,6 +23,11 @@
         <field name="wage" column="wage" length="180" />
         <field name="email" column="email" length="180" />
         <field name="phone" column="phone" length="180" />
+        <one-to-many
+            field="loans"
+            target-entity="App\LoansCorp\Loans\Domain\Loan\Loan"
+            mapped-by="client"
+        />
     </entity>
 
 </doctrine-mapping>

@@ -5,6 +5,9 @@ namespace App\LoansCorp\Loans\Infrastructure\Client;
 use App\LoansCorp\Loans\Domain\Client\Client;
 use App\LoansCorp\Loans\Domain\Client\ClientId;
 use App\LoansCorp\Loans\Domain\Client\ClientRepositoryInterface;
+use App\LoansCorp\Loans\Domain\Loan\Loan;
+use App\LoansCorp\Loans\Domain\Loan\LoanId;
+use App\LoansCorp\Loans\Domain\Product\Product;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ClientDbalRepository implements ClientRepositoryInterface
@@ -41,6 +44,23 @@ class ClientDbalRepository implements ClientRepositoryInterface
         );
 
         $this->entityManager->persist($client);
+        $this->entityManager->flush();
+    }
+
+    public function createLoan(
+        int $amount,
+        string $clientId,
+        string $productId,
+    ): void
+    {
+        $loan = new Loan(
+            LoanId::generate()->toString(),
+            $amount,
+            $this->entityManager->find(Client::class, $clientId),
+            $this->entityManager->find(Product::class, $productId),
+        );
+
+        $this->entityManager->persist($loan);
         $this->entityManager->flush();
     }
 
@@ -131,6 +151,14 @@ class ClientDbalRepository implements ClientRepositoryInterface
             ),
             $this->entityManager->getConnection()->prepare('SELECT * FROM clients')->execute()->fetchAllAssociative()
         );
+    }
+
+    /**
+     * @return Loan[]
+     */
+    public function findLoans(string $clientId): array
+    {
+        return $this->findOneById($clientId)->getLoans()->toArray();
     }
 
     public function findOneById(string $id): Client

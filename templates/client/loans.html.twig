@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th>Amount</th>
+            <th>Title</th>
+            <th>Term</th>
+            <th>Interest</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for loan in loans %}
+            <tr>
+                <td>{{ loan.amount }}</td>
+                <td>{{ loan.title }}</td>
+                <td>{{ loan.term }}</td>
+                <td>{{ loan.interest }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="row">
+        <h1>New Loan</h1>
+    </div>
+    <div class="row">
+        {{ form(form) }}
+    </div>
+{% endblock %}
