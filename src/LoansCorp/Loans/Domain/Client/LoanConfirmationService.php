@@ -10,7 +10,9 @@ class LoanConfirmationService
 
     private const AGE_MIN = 18;
 
-    private const AGE_MAX = 18;
+    private const AGE_MAX = 60;
+
+    private const WAGE_MIN = 1000;
 
     private const ALLOWED_STATES = [
         'CA',
@@ -28,7 +30,8 @@ class LoanConfirmationService
             $client->getAge() < self::AGE_MIN ||
             $client->getAge() > self::AGE_MAX ||
             !in_array($client->getState(), self::ALLOWED_STATES) ||
-            $client->getState() === 'NY' && rand(0, 1)
+            $client->getState() === 'NY' && rand(0, 1) ||
+            $client->getWage() <= self::WAGE_MIN
         ) {
             throw new LoanDeniedException();
         }

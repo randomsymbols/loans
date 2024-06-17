@@ -26,7 +26,7 @@ class ProductController extends AbstractController
             $command = new CreateProductCommand(
                 $form->get('title')->getData(),
                 $form->get('term')->getData(),
-                (string) $form->get('interest')->getData(),
+                $form->get('interest')->getData(),
             );
 
             $this->messageBus->dispatch($command);

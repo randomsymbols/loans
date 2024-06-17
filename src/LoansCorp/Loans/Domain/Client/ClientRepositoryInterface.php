@@ -21,7 +21,7 @@ interface ClientRepositoryInterface
     ): void;
 
     public function createLoan(
-        string $amount,
+        float $amount,
         string $clientId,
         string $productId,
     ): void;

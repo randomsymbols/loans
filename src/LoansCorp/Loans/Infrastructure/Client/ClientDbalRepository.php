@@ -5,10 +5,13 @@ namespace App\LoansCorp\Loans\Infrastructure\Client;
 use App\LoansCorp\Loans\Domain\Client\Client;
 use App\LoansCorp\Loans\Domain\Client\ClientId;
 use App\LoansCorp\Loans\Domain\Client\ClientRepositoryInterface;
+use App\LoansCorp\Loans\Domain\Client\Exceptions\LoanDeniedException;
 use App\LoansCorp\Loans\Domain\Loan\Loan;
 use App\LoansCorp\Loans\Domain\Loan\LoanId;
 use App\LoansCorp\Loans\Domain\Product\Product;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 
 class ClientDbalRepository implements ClientRepositoryInterface
 {
@@ -47,8 +50,11 @@ class ClientDbalRepository implements ClientRepositoryInterface
         $this->entityManager->flush();
     }
 
+    /**
+     * @throws LoanDeniedException
+     */
     public function createLoan(
-        string $amount,
+        float $amount,
         string $clientId,
         string $productId,
     ): void
