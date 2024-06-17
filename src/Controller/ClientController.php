@@ -10,11 +10,15 @@ use App\LoansCorp\Loans\Application\Command\Client\EditClientCommand;
 use App\LoansCorp\Loans\Application\ProductDTO;
 use App\LoansCorp\Loans\Application\Query\ClientQuery;
 use App\LoansCorp\Loans\Application\Query\ProductQuery;
+use App\LoansCorp\Loans\Domain\Client\Exceptions\LoanDeniedException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Notifier\Notification\Notification;
+use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Routing\Attribute\Route;
+use Throwable;
 
 class ClientController extends AbstractController
 {
@@ -70,12 +74,21 @@ class ClientController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $command = new CreateLoanCommand(
+                (string) $form->get('amount')->getData(),
                 $id,
                 $form->get('product')->getData(),
-                $form->get('amount')->getData(),
             );
 
-            $this->messageBus->dispatch($command);
+            try {
+                $this->messageBus->dispatch($command);
+            } catch (Throwable $e) {
+                $this->addFlash(
+                    'error',
+                    'Sorry, your loan request has been denied.'
+                );
+            }
+
+            return $this->redirectToRoute('client_loans', ['id' => $id]);
         }
 
         $loans = $clientQuery->findLoans($id);

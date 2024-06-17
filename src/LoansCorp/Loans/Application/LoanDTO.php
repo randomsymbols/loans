@@ -6,10 +6,10 @@ class LoanDTO
 {
     public function __construct(
         private ?string $id,
-        private ?int $amount,
+        private ?float $amount,
         private ?string $title,
         private ?int $term,
-        private ?int $interest,
+        private ?float $interest,
     ) {
 
     }
@@ -63,33 +63,33 @@ class LoanDTO
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getInterest(): ?int
+    public function getInterest(): ?float
     {
         return $this->interest;
     }
 
     /**
-     * @param int|null $interest
+     * @param float|null $interest
      */
-    public function setInterest(?int $interest): void
+    public function setInterest(?float $interest): void
     {
         $this->interest = $interest;
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getAmount(): ?int
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
 
     /**
-     * @param int|null $amount
+     * @param float|null $amount
      */
-    public function setAmount(?int $amount): void
+    public function setAmount(?float $amount): void
     {
         $this->amount = $amount;
     }

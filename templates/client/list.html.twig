@@ -17,6 +17,7 @@
             <th>Email</th>
             <th>Phone</th>
             <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -35,6 +36,7 @@
                 <td>{{ client.email }}</td>
                 <td>{{ client.phone }}</td>
                 <td><a href="{{ path('client_edit', {id: client.id}) }}">Edit</a></td>
+                <td><a href="{{ path('client_loans', {id: client.id}) }}">Loans</a></td>
             </tr>
         {% endfor %}
         </tbody>

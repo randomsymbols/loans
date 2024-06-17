@@ -7,7 +7,7 @@ interface ProductRepositoryInterface
     public function create(
         string $title,
         int $term,
-        int $interest,
+        float $interest,
     ): void;
 
     /**

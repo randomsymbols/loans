@@ -7,7 +7,7 @@ class CreateProductCommand
     public function __construct(
         private string $title,
         private int $term,
-        private int $interest,
+        private float $interest,
     ) {
 
     }
@@ -29,9 +29,9 @@ class CreateProductCommand
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getInterest(): int
+    public function getInterest(): float
     {
         return $this->interest;
     }

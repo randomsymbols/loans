@@ -48,7 +48,7 @@ class ClientDbalRepository implements ClientRepositoryInterface
     }
 
     public function createLoan(
-        int $amount,
+        string $amount,
         string $clientId,
         string $productId,
     ): void

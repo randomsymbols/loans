@@ -5,7 +5,7 @@ namespace App\LoansCorp\Loans\Application\Command\Client;
 class CreateLoanCommand
 {
     public function __construct(
-        private int $amount,
+        private float $amount,
         private string $clientId,
         private string $productId,
     ) {
@@ -45,17 +45,17 @@ class CreateLoanCommand
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getAmount(): int
+    public function getAmount(): float
     {
         return $this->amount;
     }
 
     /**
-     * @param int $amount
+     * @param float $amount
      */
-    public function setAmount(int $amount): void
+    public function setAmount(float $amount): void
     {
         $this->amount = $amount;
     }

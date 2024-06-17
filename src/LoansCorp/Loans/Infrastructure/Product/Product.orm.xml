@@ -13,8 +13,8 @@
     >
         <id name="id" type="guid" column="id" length="36" />
         <field name="title" column="title" length="180" />
-        <field name="term" column="term" length="3" />
-        <field name="interest" column="interest" length="3" />
+        <field name="term" column="term" length="4" />
+        <field name="interest" column="interest" length="4" />
         <one-to-many
             field="loans"
             target-entity="App\LoansCorp\Loans\Domain\Loan\Loan"

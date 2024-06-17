@@ -2,6 +2,7 @@
 
 namespace App\LoansCorp\Loans\Domain\Client;
 
+use App\LoansCorp\Loans\Domain\Client\Exceptions\WrongFicoException;
 use App\LoansCorp\Loans\Domain\Loan\Loan;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -61,22 +62,27 @@ class Client
         'Wyoming' => 'WY',
     ];
 
-    private Collection|null $loans = null;
+    public const FICO_MIN = 300;
+    public const FICO_MAX = 850;
+
+    private Collection $loans;
+    private int $fico;
 
     public function __construct(
-        private ?string $id,
-        private ?string $firstName,
-        private ?string $lastName,
-        private ?int $age,
-        private ?string $city,
-        private ?string $state,
-        private ?int $zip,
-        private ?string $ssn,
-        private ?int $fico,
-        private ?int $wage,
-        private ?string $email,
-        private ?string $phone,
+        private string $id,
+        private string $firstName,
+        private string $lastName,
+        private int $age,
+        private string $city,
+        private string $state,
+        private int $zip,
+        private string $ssn,
+        int $fico,
+        private int $wage,
+        private string $email,
+        private string $phone,
     ) {
+        $this->setFico($fico);
         $this->loans = new ArrayCollection();
     }
 
@@ -98,12 +104,12 @@ class Client
         return $this;
     }
 
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getFirstName(): ?string
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
@@ -115,7 +121,7 @@ class Client
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getLastName(): string
     {
         return $this->lastName;
     }
@@ -139,7 +145,7 @@ class Client
         return $this;
     }
 
-    public function getCity(): ?string
+    public function getCity(): string
     {
         return $this->city;
     }
@@ -151,7 +157,7 @@ class Client
         return $this;
     }
 
-    public function getState(): ?string
+    public function getState(): string
     {
         return $this->state;
     }
@@ -163,7 +169,7 @@ class Client
         return $this;
     }
 
-    public function getZip(): ?int
+    public function getZip(): int
     {
         return $this->zip;
     }
@@ -175,7 +181,7 @@ class Client
         return $this;
     }
 
-    public function getSsn(): ?string
+    public function getSsn(): string
     {
         return $this->ssn;
     }
@@ -187,19 +193,29 @@ class Client
         return $this;
     }
 
-    public function getFico(): ?int
+    public function getFico(): int
     {
         return $this->fico;
     }
 
+    /**
+     * @throws WrongFicoException
+     */
     public function setFico(int $fico): static
     {
+        if (
+            $fico < self::FICO_MIN ||
+            $fico > self::FICO_MAX
+        ) {
+            throw new WrongFicoException();
+        }
+
         $this->fico = $fico;
 
         return $this;
     }
 
-    public function getWage(): ?int
+    public function getWage(): int
     {
         return $this->wage;
     }
@@ -211,7 +227,7 @@ class Client
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -223,7 +239,7 @@ class Client
         return $this;
     }
 
-    public function getPhone(): ?string
+    public function getPhone(): string
     {
         return $this->phone;
     }

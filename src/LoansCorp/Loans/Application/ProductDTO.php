@@ -8,7 +8,7 @@ class ProductDTO
         private ?string $id,
         private ?string $title,
         private ?int $term,
-        private ?int $interest,
+        private ?float $interest,
     ) {
 
     }
@@ -62,17 +62,17 @@ class ProductDTO
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getInterest(): ?int
+    public function getInterest(): ?float
     {
         return $this->interest;
     }
 
     /**
-     * @param int|null $interest
+     * @param float|null $interest
      */
-    public function setInterest(?int $interest): void
+    public function setInterest(?float $interest): void
     {
         $this->interest = $interest;
     }

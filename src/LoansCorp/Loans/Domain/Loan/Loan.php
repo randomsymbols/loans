@@ -3,16 +3,24 @@
 namespace App\LoansCorp\Loans\Domain\Loan;
 
 use App\LoansCorp\Loans\Domain\Client\Client;
+use App\LoansCorp\Loans\Domain\Client\Exceptions\LoanDeniedException;
+use App\LoansCorp\Loans\Domain\Client\LoanConfirmationService;
 use App\LoansCorp\Loans\Domain\Product\Product;
 
 class Loan
 {
+    /**
+     * @throws LoanDeniedException
+     */
     public function __construct(
         private ?string $id,
-        private ?int $amount,
+        private ?float $amount,
         private ?Client $client,
         private ?Product $product,
-    ) {}
+        private ?float $interestIncrease = null,
+    ) {
+        LoanConfirmationService::checkLoanIsAllowed($this->client);
+    }
 
     /**
      * @return string|null
@@ -31,17 +39,17 @@ class Loan
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getAmount(): ?int
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
 
     /**
-     * @param int|null $amount
+     * @param float|null $amount
      */
-    public function setAmount(?int $amount): void
+    public function setAmount(?float $amount): void
     {
         $this->amount = $amount;
     }
@@ -76,5 +84,21 @@ class Loan
     public function setProduct(?Product $product): void
     {
         $this->product = $product;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getInterestIncrease(): ?float
+    {
+        return $this->interestIncrease;
+    }
+
+    /**
+     * @param float|null $interestIncrease
+     */
+    public function setInterestIncrease(?float $interestIncrease): void
+    {
+        $this->interestIncrease = $interestIncrease;
     }
 }

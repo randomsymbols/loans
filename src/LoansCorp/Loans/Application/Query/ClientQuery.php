@@ -34,7 +34,7 @@ readonly class ClientQuery
     }
 
     /**
-     * @return Loan[]
+     * @return LoanDTO[]
      */
     public function findLoans(string $clientId): array
     {
@@ -68,12 +68,17 @@ readonly class ClientQuery
     {
         $product = $loan->getProduct();
 
+        $interest = $loan->getInterestIncrease()
+            ? $loan->getInterestIncrease() + $product->getInterest()
+            : $product->getInterest()
+        ;
+
         return new LoanDTO(
             $loan->getId(),
             $loan->getAmount(),
             $product->getTitle(),
             $product->getTerm(),
-            $product->getInterest(),
+            $interest,
         );
     }
 }

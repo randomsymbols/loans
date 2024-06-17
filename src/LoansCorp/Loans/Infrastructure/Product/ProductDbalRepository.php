@@ -14,7 +14,7 @@ class ProductDbalRepository implements ProductRepositoryInterface
     public function create(
         string $title,
         int $term,
-        int $interest,
+        float $interest,
     ): void
     {
         $loan = new Product(
@@ -38,7 +38,7 @@ class ProductDbalRepository implements ProductRepositoryInterface
                 $row['id'],
                 $row['title'],
                 $row['term'],
-                $row['interest'],
+                (float) $row['interest'],
             ),
             $this->entityManager->getConnection()->prepare('SELECT * FROM products')->execute()->fetchAllAssociative()
         );
