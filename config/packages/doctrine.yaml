@@ -19,9 +19,15 @@ doctrine:
             Client:
                 type: xml
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/LoansCorp/Loans/Infrastructure'
+                dir: '%kernel.project_dir%/src/LoansCorp/Loans/Infrastructure/Client'
                 prefix: 'App\LoansCorp\Loans\Domain\Client'
                 alias: Client
+            Product:
+                type: xml
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/LoansCorp/Loans/Infrastructure/Product'
+                prefix: 'App\LoansCorp\Loans\Domain\Product'
+                alias: Product
         controller_resolver:
             auto_mapping: true
 

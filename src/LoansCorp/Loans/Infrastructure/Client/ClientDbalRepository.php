@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace App\LoansCorp\Loans\Infrastructure;
+namespace App\LoansCorp\Loans\Infrastructure\Client;
 
 use App\LoansCorp\Loans\Domain\Client\Client;
 use App\LoansCorp\Loans\Domain\Client\ClientId;
 use App\LoansCorp\Loans\Domain\Client\ClientRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
-class DbalClientRepository implements ClientRepositoryInterface
+class ClientDbalRepository implements ClientRepositoryInterface
 {
     public function __construct(private readonly EntityManagerInterface $entityManager) {}
 

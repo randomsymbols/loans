@@ -9,7 +9,7 @@
     <entity
         name="App\LoansCorp\Loans\Domain\Client\Client"
         table="clients"
-        repository-class="App\LoansCorp\Loans\Infrastructure\DbalClientRepository"
+        repository-class="App\LoansCorp\Loans\Infrastructure\Client\ClientDbalRepository"
     >
         <id name="id" type="guid" column="id" length="36" />
         <field name="firstName" column="first_name" length="180" />
